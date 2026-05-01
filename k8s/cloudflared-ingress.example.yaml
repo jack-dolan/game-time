@@ -1,0 +1,4 @@
+ingress:
+  - hostname: letsgogaming.dolanjack.com
+    service: http://letsgogaming.production.svc.cluster.local:80
+  - service: http_status:404

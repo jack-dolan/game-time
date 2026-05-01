@@ -1,0 +1,141 @@
+:root {
+  color-scheme: light dark;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  line-height: 1.4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  display: flex;
+  justify-content: center;
+  padding: 24px 12px;
+}
+
+.main-panel {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.top h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  opacity: 0.9;
+}
+
+.section {
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  padding: 14px;
+}
+
+.section h2,
+.section h3 {
+  margin: 0 0 10px;
+}
+
+.section p {
+  margin: 0 0 10px;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 8px;
+}
+
+.checkbox-grid label {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.max-rounds {
+  margin-top: 10px;
+  max-width: 260px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  border: 1px solid currentColor;
+  padding: 8px;
+  text-align: left;
+}
+
+.error {
+  border: 1px solid #b00020;
+  color: #b00020;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.code {
+  font-size: 20px;
+}
+
+.divider {
+  border-top: 1px solid currentColor;
+  margin: 14px 0;
+}
