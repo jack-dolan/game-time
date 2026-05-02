@@ -9,15 +9,15 @@
     "client"
   ],
   "scripts": {
-    "build": "npm run build --workspace=shared && npm run build --workspace=client && npm run build --workspace=server",
+    "build": "npm run build -w @letsgogaming/shared && npm run build -w @letsgogaming/client && npm run build -w @letsgogaming/server",
     "dev": "npm-run-all --parallel dev:shared dev:server dev:client",
-    "dev:shared": "npm run dev --workspace=shared",
-    "dev:server": "npm run dev --workspace=server",
-    "dev:client": "npm run dev --workspace=client",
-    "start": "npm run start --workspace=server",
-    "typecheck": "npm run typecheck --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "dev:shared": "npm run dev -w @letsgogaming/shared",
+    "dev:server": "npm run dev -w @letsgogaming/server",
+    "dev:client": "npm run dev -w @letsgogaming/client",
+    "start": "npm run start -w @letsgogaming/server",
+    "typecheck": "npm run build -w @letsgogaming/shared && npm run typecheck -w @letsgogaming/server && npm run typecheck -w @letsgogaming/client",
+    "lint": "npm run lint -w @letsgogaming/shared -w @letsgogaming/server -w @letsgogaming/client",
+    "test": "npm run build -w @letsgogaming/shared && npm run test -w @letsgogaming/server"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
