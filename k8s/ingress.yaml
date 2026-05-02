@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: letsgogaming
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: letsgogaming.dolanjack.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: letsgogaming
+                port:
+                  number: 80

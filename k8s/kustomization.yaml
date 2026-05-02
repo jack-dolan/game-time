@@ -4,3 +4,4 @@ namespace: production
 resources:
   - deployment.yaml
   - service.yaml
+  - ingress.yaml
