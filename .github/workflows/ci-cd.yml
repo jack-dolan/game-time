@@ -81,14 +81,16 @@ jobs:
             ${{ env.IMAGE_NAME }}:latest
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
+      - name: Install Trivy
+        run: brew install trivy
+
       - name: Scan image for vulnerabilities
-        uses: aquasecurity/trivy-action@76071ef0d7ec797419534a183b498b4d6366cf37  # v0.31.0
-        with:
-          image-ref: ${{ env.IMAGE_NAME }}:${{ github.sha }}
-          format: table
-          exit-code: '1'
-          severity: HIGH,CRITICAL
-          ignore-unfixed: true
+        run: |
+          trivy image \
+            --exit-code 1 \
+            --severity HIGH,CRITICAL \
+            --ignore-unfixed \
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Patch image tag
         run: sed -i "s|letsgogaming:latest|letsgogaming:${{ github.sha }}|" k8s/deployment.yaml
