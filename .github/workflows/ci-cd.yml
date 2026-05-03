@@ -102,6 +102,11 @@ jobs:
       - name: Wait for rollout
         run: kubectl rollout status deployment/letsgogaming -n production --timeout=180s
 
+  cleanup:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
       - name: Clean up old image versions
         uses: actions/delete-package-versions@e5bc658cc4c965c472efe991f8beea3981499c55  # v5
         with:
