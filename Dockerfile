@@ -16,7 +16,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
-RUN addgroup -S app && adduser -S app -G app
+RUN addgroup -S -g 1001 app && adduser -S -u 1001 -G app app
 
 COPY package.json package-lock.json ./
 COPY shared/package.json shared/package.json
