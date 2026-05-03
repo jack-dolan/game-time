@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet from 'helmet';
 import http from 'node:http';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
@@ -22,10 +23,12 @@ interface SocketData {
 }
 
 const PORT = Number(process.env.PORT ?? 8080);
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') ?? ['http://localhost:5173'];
 const app = express();
+app.use(helmet());
 const server = http.createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents, {}, SocketData>(server, {
-  cors: { origin: true, credentials: true },
+  cors: { origin: allowedOrigins, credentials: true },
 });
 const rooms = new RoomManager();
 
