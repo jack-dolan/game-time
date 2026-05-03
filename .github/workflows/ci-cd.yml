@@ -94,7 +94,7 @@ jobs:
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Patch image tag
-        run: sed -i "s|letsgogaming:latest|letsgogaming:${{ github.sha }}|" k8s/deployment.yaml
+        run: sed -i '' "s|letsgogaming:latest|letsgogaming:${{ github.sha }}|" k8s/deployment.yaml
 
       - name: Deploy manifests
         run: kubectl apply -k k8s
