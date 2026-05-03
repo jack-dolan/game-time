@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { PDChoice, RoomView } from '@letsgogaming/shared';
+import { SLOT_ODDS, type PDChoice, type RoomView } from '@letsgogaming/shared';
 
 interface GamblingProps {
   room: RoomView;
@@ -8,6 +8,108 @@ interface GamblingProps {
   onSlot: (bet: number) => void;
   onCoinflip: (bet: number, call: 'heads' | 'tails') => void;
   onPrisoners: (choice: PDChoice) => void;
+}
+
+function SlotPayoutInfo() {
+  return (
+    <div className="payout-info">
+      <h3>Payouts</h3>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Outcome</th>
+            <th>Chance</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          {SLOT_ODDS.map((odd) => (
+            <tr key={odd.outcome}>
+              <td>{odd.label}</td>
+              <td>{(odd.probability * 100).toFixed(0)}%</td>
+              <td>
+                {odd.multiplier > 0
+                  ? `+${odd.multiplier}× bet`
+                  : odd.multiplier === 0
+                    ? 'No change'
+                    : `${odd.multiplier}× bet`}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function CoinflipPayoutInfo() {
+  return (
+    <div className="payout-info">
+      <h3>Payouts</h3>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Result</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Correct call</td>
+            <td>+1× your bet</td>
+          </tr>
+          <tr>
+            <td>Wrong call</td>
+            <td>−1× your bet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function PrisonersPayoutInfo() {
+  return (
+    <div className="payout-info">
+      <h3>Payoff Matrix</h3>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>You</th>
+            <th>Partner</th>
+            <th>You get</th>
+            <th>Partner gets</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cooperate</td>
+            <td>Cooperate</td>
+            <td>+15 coins</td>
+            <td>+15 coins</td>
+          </tr>
+          <tr>
+            <td>Cooperate</td>
+            <td>Defect</td>
+            <td>−15 coins</td>
+            <td>+25 coins</td>
+          </tr>
+          <tr>
+            <td>Defect</td>
+            <td>Cooperate</td>
+            <td>+25 coins</td>
+            <td>−15 coins</td>
+          </tr>
+          <tr>
+            <td>Defect</td>
+            <td>Defect</td>
+            <td>−5 coins</td>
+            <td>−5 coins</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 export function Gambling({
@@ -38,7 +140,7 @@ export function Gambling({
       {!alreadySubmitted && gambling.gamblingGame === 'slot' ? (
         <div className="form-grid">
           <label>
-            Bet (0-{maxCoins})
+            Bet (0–{maxCoins})
             <input
               type="number"
               min={0}
@@ -51,14 +153,18 @@ export function Gambling({
             <button type="button" onClick={() => onSlot(Number.isFinite(bet) ? Math.max(0, bet) : 0)}>
               Spin
             </button>
+            <button type="button" onClick={onAbstain}>
+              Abstain
+            </button>
           </div>
+          <SlotPayoutInfo />
         </div>
       ) : null}
 
       {!alreadySubmitted && gambling.gamblingGame === 'coinflip' ? (
         <div className="form-grid">
           <label>
-            Bet (0-{maxCoins})
+            Bet (0–{maxCoins})
             <input
               type="number"
               min={0}
@@ -84,7 +190,11 @@ export function Gambling({
             >
               Flip
             </button>
+            <button type="button" onClick={onAbstain}>
+              Abstain
+            </button>
           </div>
+          <CoinflipPayoutInfo />
         </div>
       ) : null}
 
@@ -104,14 +214,7 @@ export function Gambling({
               Defect
             </button>
           </div>
-        </div>
-      ) : null}
-
-      {!alreadySubmitted ? (
-        <div className="button-row">
-          <button type="button" onClick={onAbstain}>
-            Abstain
-          </button>
+          <PrisonersPayoutInfo />
         </div>
       ) : null}
 
