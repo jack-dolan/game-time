@@ -3,14 +3,19 @@ import { randomUUID } from 'node:crypto';
 import type { PlayerState, RoomState } from './types.js';
 
 const ROOM_CODE_ALPHABET = 'BCDFGHJKLMNPQRSTVWXYZ';
-const ROOM_CODE_LENGTH = 4;
+const ROOM_CODE_LENGTH = 5;
 const MAX_CODE_ATTEMPTS = 500;
+const MAX_NAME_LENGTH = 25;
 
 export const MAX_PLAYERS_PER_ROOM = 12;
 export const ROOM_IDLE_TTL_MS = 30 * 60 * 1000;
 
 function normalizeName(name: string): string {
-  return name.trim().replace(/\s+/g, ' ');
+  const normalized = name.trim().replace(/\s+/g, ' ');
+  if (normalized.length > MAX_NAME_LENGTH) {
+    throw new Error(`Name must be ${MAX_NAME_LENGTH} characters or fewer.`);
+  }
+  return normalized;
 }
 
 function randomRoomCode(): string {
