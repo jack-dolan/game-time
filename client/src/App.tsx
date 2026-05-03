@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { RoomView, ScoreInput } from '@letsgogaming/shared';
+import { playDangit, playLetsGoGambling, playWin } from './audio.js';
 import { socket } from './socket.js';
 import { Gambling } from './views/Gambling.js';
 import { GamblingResults } from './views/GamblingResults.js';
@@ -80,6 +81,42 @@ export function App() {
     return room.players.find((p) => p.id === playerId) ?? null;
   }, [room, playerId]);
   const isHost = !!(room && playerId && room.hostId === playerId);
+
+  const prevPhaseRef = useRef<string | null | undefined>(undefined);
+  useEffect(() => {
+    const phase = room?.phase ?? null;
+    if (phase === prevPhaseRef.current) return;
+    const prevPhase = prevPhaseRef.current;
+    prevPhaseRef.current = phase;
+    if (prevPhase === undefined) return;
+
+    if (phase === 'gambling_active') {
+      playLetsGoGambling();
+    } else if (phase === 'gambling_results') {
+      const results = room?.lastGamblingResults;
+      const myOutcome = results?.outcomes.find((o) => o.playerId === playerId);
+      if (myOutcome && !myOutcome.abstained) {
+        if (results?.gamblingGame === 'slot') {
+          if (myOutcome.slotOutcome === 'jackpot' || myOutcome.slotOutcome === 'win') {
+            playWin();
+          } else if (myOutcome.slotOutcome === 'loss' || myOutcome.slotOutcome === 'bust') {
+            playDangit();
+          }
+        } else if (results?.gamblingGame === 'coinflip') {
+          if (myOutcome.coinflipWon) {
+            playWin();
+          } else if (myOutcome.coinflipWon === false) {
+            playDangit();
+          }
+        }
+      }
+    } else if (phase === 'game_over') {
+      const leaderboard = room?.finalLeaderboard ?? [];
+      if (leaderboard.length > 0 && leaderboard[0].id === playerId) {
+        playWin();
+      }
+    }
+  }, [room, playerId]);
 
   function handleCreateRoom(nextName: string) {
     const cleanName = nextName.trim();
