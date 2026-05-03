@@ -39,8 +39,8 @@ export function Landing({ defaultName, onCreate, onJoin, disabled = false }: Lan
           <input
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="ABCD"
-            maxLength={4}
+            placeholder="ABCDE"
+            maxLength={5}
           />
         </label>
         <div className="button-row">
