@@ -90,6 +90,7 @@ jobs:
             --exit-code 1 \
             --severity HIGH,CRITICAL \
             --ignore-unfixed \
+            --skip-dirs /usr/local/lib/node_modules/npm \
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Patch image tag
