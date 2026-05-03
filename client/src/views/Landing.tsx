@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { playLetsGoGambling } from '../audio.js';
 
 interface LandingProps {
   defaultName: string;
@@ -11,9 +12,12 @@ export function Landing({ defaultName, onCreate, onJoin, disabled = false }: Lan
   const [name, setName] = useState(defaultName);
   const [code, setCode] = useState('');
 
+  useEffect(() => {
+    playLetsGoGambling();
+  }, []);
+
   return (
     <section className="section">
-      <h2>Join Game Night</h2>
       <div className="form-grid">
         <label>
           Name
