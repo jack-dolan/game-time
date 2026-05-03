@@ -2,7 +2,7 @@
 
 Self-hosted multiplayer party-game room for weekly team game time.
 
-Players join a 4-letter room, play external web games in sync, submit scores on honor system, earn coins, then run periodic gambling rounds.
+Players join a 5-letter room, play external web games in sync, submit scores on honor system, earn coins, then run periodic gambling rounds.
 
 ## Stack
 
