@@ -101,8 +101,19 @@ export function App() {
       const results = room?.lastGamblingResults;
       const myOutcome = results?.outcomes.find((o) => o.playerId === playerId);
       if (myOutcome && !myOutcome.abstained) {
-        if (myOutcome.delta > 0) playWin();
-        else if (myOutcome.delta < 0) playDangit();
+        if (results?.gamblingGame === 'slot') {
+          if (myOutcome.slotOutcome === 'jackpot' || myOutcome.slotOutcome === 'win') {
+            playWin();
+          } else if (myOutcome.slotOutcome === 'loss' || myOutcome.slotOutcome === 'bust') {
+            playDangit();
+          }
+        } else if (results?.gamblingGame === 'coinflip') {
+          if (myOutcome.coinflipWon) {
+            playWin();
+          } else if (myOutcome.coinflipWon === false) {
+            playDangit();
+          }
+        }
       }
     } else if (phase === 'game_over') {
       const leaderboard = room?.finalLeaderboard ?? [];
@@ -210,7 +221,7 @@ export function App() {
           <GameResults room={room} isHost={isHost} onContinue={() => socket.emit('host:advance')} />
         ) : null}
 
-        {room?.phase === 'gaming_round' && me?.hasSubmitted && doodleView ? (
+        {((room?.phase === 'gaming_round' && me?.hasSubmitted) || room?.phase === 'gaming_results') && doodleView ? (
           <Doodle view={doodleView} myId={playerId} />
         ) : null}
 
