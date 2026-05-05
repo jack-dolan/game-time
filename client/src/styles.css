@@ -75,6 +75,12 @@ button {
   background: transparent;
 }
 
+select,
+select option {
+  background-color: Canvas;
+  color: CanvasText;
+}
+
 button {
   cursor: pointer;
 }

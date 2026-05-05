@@ -19,8 +19,11 @@ function shuffle<T>(items: T[]): T[] {
   return copy;
 }
 
-function chooseRandomGamblingGame() {
-  return GAMBLING_GAMES[Math.floor(Math.random() * GAMBLING_GAMES.length)];
+function nextGamblingGame(room: RoomState) {
+  if (room.remainingGamblingGames.length === 0) {
+    room.remainingGamblingGames = shuffle([...GAMBLING_GAMES]);
+  }
+  return room.remainingGamblingGames.shift()!;
 }
 
 function rollSlot(odds: SlotOdds[]) {
@@ -83,7 +86,7 @@ function buildPrisonersPairs(room: RoomState): Map<string, PrisonersPartner> {
 }
 
 export function startGamblingRound(room: RoomState): void {
-  const gamblingGame = chooseRandomGamblingGame();
+  const gamblingGame = nextGamblingGame(room);
   room.phase = 'gambling_active';
   room.currentRound = undefined;
   room.lastRoundResults = undefined;

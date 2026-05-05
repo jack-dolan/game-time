@@ -98,6 +98,9 @@ export function validateScoreInput(game: GameDef, input: ScoreInput): string | n
       return 'Ratio must be two non-negative numbers like 46:54.';
     }
     if (input.a + input.b <= 0) return 'Ratio total must be greater than zero.';
+    if (Math.abs(input.a + input.b - 100) > 0.5) {
+      return 'Your two numbers must add up to 100 (e.g. 46:54).';
+    }
   }
   return null;
 }
