@@ -69,6 +69,7 @@ export class RoomManager {
       settings: makeDefaultSettings(),
       players: new Map([[host.id, host]]),
       remainingGameIds: [],
+      remainingGamblingGames: [],
       completedGamingRounds: 0,
     };
 
