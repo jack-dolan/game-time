@@ -9,6 +9,8 @@ const MAX_NAME_LENGTH = 25;
 
 export const MAX_PLAYERS_PER_ROOM = 12;
 export const ROOM_IDLE_TTL_MS = 30 * 60 * 1000;
+export const ROOM_MAX_LIFETIME_MS = 4 * 60 * 60 * 1000; // 4 hours regardless of activity
+export const MAX_TOTAL_ROOMS = 500;
 
 function normalizeName(name: string): string {
   const normalized = name.trim().replace(/\s+/g, ' ');
@@ -56,6 +58,10 @@ export class RoomManager {
       throw new Error('Name is required.');
     }
 
+    if (this.rooms.size >= MAX_TOTAL_ROOMS) {
+      throw new Error('Server is at capacity. Try again later.');
+    }
+
     const code = this.generateUniqueCode();
     const host = makePlayer(normalizedHostName, true);
     const now = Date.now();
@@ -88,14 +94,8 @@ export class RoomManager {
       (player) => player.name.toLowerCase() === normalizedName.toLowerCase(),
     );
 
-    if (existingByName && existingByName.connected) {
+    if (existingByName) {
       throw new Error('That name is already in use in this room.');
-    }
-
-    if (existingByName && !existingByName.connected) {
-      existingByName.connected = true;
-      this.touch(room);
-      return { room, player: existingByName };
     }
 
     if (room.players.size >= MAX_PLAYERS_PER_ROOM) {
@@ -166,8 +166,9 @@ export class RoomManager {
     let removed = 0;
     for (const [code, room] of this.rooms.entries()) {
       const connectedCount = [...room.players.values()].filter((p) => p.connected).length;
-      const stale = now - room.lastActiveAt > ROOM_IDLE_TTL_MS;
-      if (connectedCount === 0 && stale) {
+      const idleStale = connectedCount === 0 && now - room.lastActiveAt > ROOM_IDLE_TTL_MS;
+      const expired = now - room.createdAt > ROOM_MAX_LIFETIME_MS;
+      if (idleStale || expired) {
         this.rooms.delete(code);
         removed += 1;
       }
