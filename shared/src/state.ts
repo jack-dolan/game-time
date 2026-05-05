@@ -72,6 +72,24 @@ export interface GamblingResultsView {
   outcomes: GamblingPlayerOutcome[];
 }
 
+export interface DoodlePlayer {
+  id: string;
+  name: string;
+  color: string;
+  /** Index into the grid's value space (0‥n-1). */
+  index: number;
+  x: number;
+  y: number;
+}
+
+export interface DoodleView {
+  width: number;
+  height: number;
+  /** Flat row-major array; -1 = empty, >=0 = player index. */
+  grid: number[];
+  players: DoodlePlayer[];
+}
+
 export interface RoomSettings {
   /** Subset of game ids the host enabled. */
   selectedGameIds: string[];

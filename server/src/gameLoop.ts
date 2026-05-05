@@ -7,6 +7,7 @@ import {
   type ScoreInput,
 } from '@letsgogaming/shared';
 import type { RoomSettings } from '@letsgogaming/shared';
+import { initDoodle } from './doodle.js';
 import { startGamblingRound } from './gambling.js';
 import type { PlayerState, RoomState } from './types.js';
 
@@ -80,6 +81,7 @@ function startNextGamingRound(room: RoomState): void {
   room.gambling = undefined;
   room.lastGamblingResults = undefined;
   room.finalLeaderboard = undefined;
+  initDoodle(room);
 }
 
 function finalizeCurrentRound(room: RoomState): void {
@@ -155,6 +157,8 @@ export function resetToLobby(room: RoomState): void {
   room.gambling = undefined;
   room.lastGamblingResults = undefined;
   room.finalLeaderboard = undefined;
+
+  room.doodle = undefined;
 
   for (const player of room.players.values()) {
     player.coins = 0;

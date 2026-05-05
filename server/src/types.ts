@@ -7,6 +7,15 @@ import type {
 import type { GamblingGame, PDChoice } from '@letsgogaming/shared';
 import type { ScoreInput } from '@letsgogaming/shared';
 
+export interface DoodleState {
+  width: number;
+  height: number;
+  grid: number[];
+  positions: Map<string, { x: number; y: number }>;
+  colors: Map<string, string>;
+  indices: Map<string, number>;
+}
+
 export interface PlayerState {
   id: string;
   name: string;
@@ -54,4 +63,5 @@ export interface RoomState {
   lastGamblingResults?: GamblingResultsView;
   finalLeaderboard?: PlayerState[];
   latestGamblingOutcomes?: GamblingPlayerOutcome[];
+  doodle?: DoodleState;
 }

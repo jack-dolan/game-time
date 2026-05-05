@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { ClientToServerEvents, ServerToClientEvents } from '@letsgogaming/shared';
 import { Server } from 'socket.io';
+import { applyDoodleMove, buildDoodleView } from './doodle.js';
 import {
   hostAdvance,
   maybeFinalizeRoundAfterPresenceChange,
@@ -58,6 +59,20 @@ export function createApp() {
       if (!player.socketId) continue;
       io.to(player.socketId).emit('room:state', buildRoomView(room, player.id));
     }
+  }
+
+  function emitDoodleState(code: string): void {
+    const room = rooms.getRoom(code);
+    const view = room ? buildDoodleView(room) : null;
+    if (!view) return;
+    io.to(code).emit('doodle:state', view);
+  }
+
+  function emitDoodleStateToSocket(socketId: string, code: string): void {
+    const room = rooms.getRoom(code);
+    const view = room ? buildDoodleView(room) : null;
+    if (!view) return;
+    io.to(socketId).emit('doodle:state', view);
   }
 
   function sendSocketError(socketId: string, message: string): void {
@@ -121,6 +136,7 @@ export function createApp() {
         bindSocketToRoom(socket.data, room.code, player.id);
         ack({ ok: true, playerId: player.id });
         emitRoomState(room.code);
+        emitDoodleStateToSocket(socket.id, room.code);
       } catch (err) {
         ack({ ok: false, error: err instanceof Error ? err.message : 'Failed to join room.' });
       }
@@ -135,6 +151,7 @@ export function createApp() {
         bindSocketToRoom(socket.data, room.code, player.id);
         ack({ ok: true });
         emitRoomState(room.code);
+        emitDoodleStateToSocket(socket.id, room.code);
       } catch (err) {
         ack({ ok: false, error: err instanceof Error ? err.message : 'Failed to rejoin room.' });
       }
@@ -183,8 +200,24 @@ export function createApp() {
         hostAdvance(room);
         rooms.touch(room);
         emitRoomState(room.code);
+        emitDoodleState(room.code);
       } catch (err) {
         sendSocketError(socket.id, err instanceof Error ? err.message : 'Failed to advance phase.');
+      }
+    });
+
+    socket.on('doodle:move', (payload) => {
+      try {
+        const { room, player } = getBoundRoomAndPlayer(socket.data);
+        const validDirs = new Set(['up', 'down', 'left', 'right']);
+        if (!validDirs.has(payload.dir)) return;
+        const changed = applyDoodleMove(room, player.id, payload.dir);
+        if (changed) {
+          rooms.touch(room);
+          emitDoodleState(room.code);
+        }
+      } catch {
+        // doodle moves are fire-and-forget
       }
     });
 

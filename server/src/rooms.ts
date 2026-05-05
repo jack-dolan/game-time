@@ -141,6 +141,18 @@ export class RoomManager {
 
     player.connected = false;
     player.socketId = null;
+
+    if (player.isHost) {
+      const nextHost = [...room.players.values()]
+        .filter((p) => p.connected)
+        .sort((a, b) => a.joinedAt - b.joinedAt)[0];
+      if (nextHost) {
+        player.isHost = false;
+        nextHost.isHost = true;
+        room.hostId = nextHost.id;
+      }
+    }
+
     this.touch(room);
     return room;
   }
