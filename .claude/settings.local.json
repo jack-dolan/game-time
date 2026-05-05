@@ -33,7 +33,16 @@
       "Bash(kubectl get *)",
       "Bash(curl -s -o /dev/null -w '%{http_code}' --max-time 5 https://__TRACKED_VAR__)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://mlops-api.dolanjack.com/health)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://mlops-api-staging.dolanjack.com/health)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://mlops-api-staging.dolanjack.com/health)",
+      "Bash(printf '#!/bin/sh\\\\nsed -i \"/Co-Authored-By: Claude/d\" \"$1\"\\\\n')",
+      "Bash(chmod +x /tmp/strip_claude.sh)",
+      "Bash(GIT_SEQUENCE_EDITOR=\"sed -i 's/^pick/reword/g'\" GIT_EDITOR=/tmp/strip_claude.sh git -C /home/jack/workspace/mlops-model-platform rebase -i a5ac233)",
+      "Bash(npm audit *)",
+      "Bash(npm install *)",
+      "Bash(gh pr *)",
+      "Bash(curl -L -o /home/jack/workspace/game-time/client/public/audio/lets-go-gambling.mp3 'https://www.myinstants.com/media/sounds/lets-go-gambling_dVjTC3g.mp3')",
+      "Bash(curl -L -o /home/jack/workspace/game-time/client/public/audio/lets-go-gambling-win.mp3 'https://www.myinstants.com/media/sounds/lets-go-gambling-win.mp3')",
+      "Bash(curl -L -o /home/jack/workspace/game-time/client/public/audio/aw-dangit.mp3 'https://www.myinstants.com/media/sounds/aw-dangit.mp3')"
     ]
   }
 }

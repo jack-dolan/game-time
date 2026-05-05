@@ -36,6 +36,7 @@ function parseRoundInput(raw: string, room: RoomView): { score?: ScoreInput; err
 
   const ratio = parseRatio(value);
   if (!ratio) return { error: 'Enter ratio like 46:54.' };
+  if (Math.abs(ratio.a + ratio.b - 100) > 0.5) return { error: 'Your two numbers must add up to 100 (e.g. 46:54).' };
   return { score: { kind: 'ratio', a: ratio.a, b: ratio.b } };
 }
 

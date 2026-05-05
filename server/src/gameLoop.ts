@@ -151,6 +151,7 @@ export function enterGameOver(room: RoomState): void {
 export function resetToLobby(room: RoomState): void {
   room.phase = 'lobby';
   room.remainingGameIds = [];
+  room.remainingGamblingGames = [];
   room.completedGamingRounds = 0;
   room.currentRound = undefined;
   room.lastRoundResults = undefined;

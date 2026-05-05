@@ -177,6 +177,7 @@ export function createApp() {
         startGame(room);
         rooms.touch(room);
         emitRoomState(room.code);
+        emitDoodleState(room.code);
       } catch (err) {
         sendSocketError(socket.id, err instanceof Error ? err.message : 'Failed to start game.');
       }

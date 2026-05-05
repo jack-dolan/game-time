@@ -1,10 +1,11 @@
 import type {
   GameRoundResultView,
+  GamblingGame,
   GamblingPlayerOutcome,
   GamblingResultsView,
   RoomSettings,
 } from '@letsgogaming/shared';
-import type { GamblingGame, PDChoice } from '@letsgogaming/shared';
+import type { PDChoice } from '@letsgogaming/shared';
 import type { ScoreInput } from '@letsgogaming/shared';
 
 export interface DoodleState {
@@ -56,6 +57,7 @@ export interface RoomState {
   settings: RoomSettings;
   players: Map<string, PlayerState>;
   remainingGameIds: string[];
+  remainingGamblingGames: GamblingGame[];
   completedGamingRounds: number;
   currentRound?: GameRoundState;
   lastRoundResults?: GameRoundResultView;
