@@ -154,3 +154,137 @@ button:disabled {
   letter-spacing: 0.06em;
   opacity: 0.7;
 }
+
+/* Doodle canvas */
+
+.doodle-section {
+  padding: 14px;
+}
+
+.doodle-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.doodle-header h3 {
+  margin: 0;
+}
+
+.doodle-hint {
+  font-size: 11px;
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.doodle-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-bottom: 12px;
+}
+
+.doodle-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.doodle-legend-me {
+  opacity: 1;
+  font-weight: bold;
+}
+
+.doodle-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.doodle-canvas {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 80 / 45;
+  border-radius: 4px;
+  image-rendering: pixelated;
+}
+
+/* Landing two-pane layout */
+
+.landing {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.landing-pane {
+  flex: 1;
+  padding: 28px 26px;
+}
+
+.landing-pane-label {
+  margin: 0 0 20px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.5;
+}
+
+.landing-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 44px;
+  padding: 28px 0;
+}
+
+.landing-divider::before,
+.landing-divider::after {
+  content: '';
+  flex: 1;
+  width: 1px;
+  background: currentColor;
+  opacity: 0.18;
+}
+
+.landing-divider span {
+  padding: 10px 0;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+}
+
+@media (max-width: 540px) {
+  .landing {
+    flex-direction: column;
+  }
+
+  .landing-divider {
+    flex-direction: row;
+    width: auto;
+    height: 44px;
+    padding: 0 26px;
+  }
+
+  .landing-divider::before,
+  .landing-divider::after {
+    flex: 1;
+    width: auto;
+    height: 1px;
+  }
+
+  .landing-divider span {
+    padding: 0 10px;
+  }
+}

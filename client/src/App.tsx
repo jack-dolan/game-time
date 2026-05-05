@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { RoomView, ScoreInput } from '@letsgogaming/shared';
+import type { DoodleView, RoomView, ScoreInput } from '@letsgogaming/shared';
 import { playDangit, playLetsGoGambling, playWin } from './audio.js';
 import { socket } from './socket.js';
+import { Doodle } from './views/Doodle.js';
 import { Gambling } from './views/Gambling.js';
 import { GamblingResults } from './views/GamblingResults.js';
 import { GameOver } from './views/GameOver.js';
@@ -40,6 +41,7 @@ function writeSession(session: StoredSession | null) {
 
 export function App() {
   const [room, setRoom] = useState<RoomView | null>(null);
+  const [doodleView, setDoodleView] = useState<DoodleView | null>(null);
   const [playerId, setPlayerId] = useState<string | null>(null);
   const [name, setName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -58,19 +60,22 @@ export function App() {
         if (!res.ok) {
           writeSession(null);
           setPlayerId(null);
-          setErrorMessage(`Rejoin failed: ${res.error}`);
+          // Silently discard stale sessions (room expired or server restarted)
         }
       });
     }
 
     const onRoomState = (next: RoomView) => setRoom(next);
+    const onDoodleState = (next: DoodleView) => setDoodleView(next);
     const onError = (message: string) => setErrorMessage(message);
 
     socket.on('room:state', onRoomState);
+    socket.on('doodle:state', onDoodleState);
     socket.on('error:message', onError);
 
     return () => {
       socket.off('room:state', onRoomState);
+      socket.off('doodle:state', onDoodleState);
       socket.off('error:message', onError);
       socket.disconnect();
     };
@@ -214,6 +219,10 @@ export function App() {
 
         {room?.phase === 'gaming_results' ? (
           <GameResults room={room} isHost={isHost} onContinue={() => socket.emit('host:advance')} />
+        ) : null}
+
+        {(room?.phase === 'gaming_round' || room?.phase === 'gaming_results') && doodleView ? (
+          <Doodle view={doodleView} myId={playerId} />
         ) : null}
 
         {room?.phase === 'gambling_active' ? (
