@@ -1,6 +1,6 @@
 import type { PDChoice } from './gambling.js';
 import type { ScoreInput } from './scoring.js';
-import type { RoomSettings, RoomView } from './state.js';
+import type { DoodleView, RoomSettings, RoomView } from './state.js';
 
 /** Events the client emits to the server. */
 export interface ClientToServerEvents {
@@ -24,10 +24,12 @@ export interface ClientToServerEvents {
   'gambling:coinflip': (payload: { bet: number; call: 'heads' | 'tails' }) => void;
   'gambling:prisoners': (payload: { choice: PDChoice }) => void;
   'gambling:abstain': () => void;
+  'doodle:move': (payload: { dir: 'up' | 'down' | 'left' | 'right' }) => void;
 }
 
 /** Events the server emits to the client. */
 export interface ServerToClientEvents {
   'room:state': (room: RoomView) => void;
   'error:message': (message: string) => void;
+  'doodle:state': (view: DoodleView) => void;
 }
