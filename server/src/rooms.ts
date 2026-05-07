@@ -77,6 +77,7 @@ export class RoomManager {
       remainingGameIds: [],
       remainingGamblingGames: [],
       completedGamingRounds: 0,
+      roundHistory: [],
     };
 
     this.rooms.set(code, room);

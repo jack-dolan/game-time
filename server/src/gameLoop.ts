@@ -118,6 +118,7 @@ function finalizeCurrentRound(room: RoomState): void {
     roundNumber: round.roundNumber,
     results,
   };
+  room.roundHistory.push(room.lastRoundResults);
   room.currentRound = undefined;
 }
 
@@ -158,6 +159,7 @@ export function resetToLobby(room: RoomState): void {
   room.gambling = undefined;
   room.lastGamblingResults = undefined;
   room.finalLeaderboard = undefined;
+  room.roundHistory = [];
 
   room.doodle = undefined;
 
@@ -180,6 +182,7 @@ export function startGame(room: RoomState): void {
   room.lastRoundResults = undefined;
   room.lastGamblingResults = undefined;
   room.finalLeaderboard = undefined;
+  room.roundHistory = [];
 
   for (const player of room.players.values()) {
     player.coins = 0;

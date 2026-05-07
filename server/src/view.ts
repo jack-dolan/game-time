@@ -90,6 +90,7 @@ export function buildRoomView(room: RoomState, viewerPlayerId?: string): RoomVie
       coins: player.coins,
       hasSubmitted: false,
     }));
+    view.roundHistory = room.roundHistory;
   }
 
   return view;
