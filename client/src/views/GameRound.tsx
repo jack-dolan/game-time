@@ -1,10 +1,17 @@
 import { useState } from 'react';
-import { getGame, parseRatio, type RoomView, type ScoreInput } from '@letsgogaming/shared';
+import { getGame, parseRatio, type RoomView, type ScoreInput, type ScoreKind } from '@letsgogaming/shared';
 
 interface GameRoundProps {
   room: RoomView;
   me: { id: string } | null;
   onSubmit: (score: ScoreInput) => void;
+}
+
+function scorePlaceholder(scoreKind: ScoreKind): string {
+  if (scoreKind.kind === 'integer-range') return `${scoreKind.min}–${scoreKind.max}`;
+  if (scoreKind.kind === 'guesses-or-fail') return `1–${scoreKind.maxGuesses}, or X`;
+  if (scoreKind.kind === 'mistakes-or-fail') return `0–${scoreKind.maxMistakes - 1}, or X`;
+  return 'e.g. 46:54';
 }
 
 function parseRoundInput(raw: string, room: RoomView): { score?: ScoreInput; error?: string } {
@@ -66,17 +73,21 @@ export function GameRound({ room, me, onSubmit }: GameRoundProps) {
       {alreadySubmitted ? (
         <p>Submitted. Waiting for others.</p>
       ) : (
-        <RoundInputForm
-          hint={game.scoreInputHint}
-          onSubmit={(raw) => {
-            const parsed = parseRoundInput(raw, room);
-            if (parsed.error || !parsed.score) {
-              window.alert(parsed.error ?? 'Invalid score.');
-              return;
-            }
-            onSubmit(parsed.score);
-          }}
-        />
+        <>
+          <p className="after-playing">After playing, come back here and enter your score below.</p>
+          <RoundInputForm
+            hint={game.scoreInputHint}
+            placeholder={scorePlaceholder(game.scoreKind)}
+            onSubmit={(raw) => {
+              const parsed = parseRoundInput(raw, room);
+              if (parsed.error || !parsed.score) {
+                window.alert(parsed.error ?? 'Invalid score.');
+                return;
+              }
+              onSubmit(parsed.score);
+            }}
+          />
+        </>
       )}
 
       <h3>Submission status</h3>
@@ -93,9 +104,11 @@ export function GameRound({ room, me, onSubmit }: GameRoundProps) {
 
 function RoundInputForm({
   hint,
+  placeholder,
   onSubmit,
 }: {
   hint: string;
+  placeholder: string;
   onSubmit: (value: string) => void;
 }) {
   const [value, setValue] = useState('');
@@ -103,7 +116,7 @@ function RoundInputForm({
     <div className="form-grid">
       <label>
         {hint}
-        <input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Enter score" />
+        <input value={value} onChange={(e) => setValue(e.target.value)} placeholder={placeholder} />
       </label>
       <div className="button-row">
         <button type="button" onClick={() => onSubmit(value)}>

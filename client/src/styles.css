@@ -118,6 +118,32 @@ button:disabled {
   max-width: 260px;
 }
 
+.tab-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.tab {
+  padding: 6px 14px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.tab-active {
+  opacity: 1;
+  font-weight: bold;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -128,6 +154,12 @@ button:disabled {
   border: 1px solid currentColor;
   padding: 8px;
   text-align: left;
+}
+
+.after-playing {
+  opacity: 0.65;
+  font-style: italic;
+  margin-top: 10px;
 }
 
 .error {

@@ -330,12 +330,18 @@ export function submitGamblingAction(
     if (gambling.gamblingGame !== 'coinflip') {
       throw new Error('Current gambling game is not coin flip.');
     }
+    if (submission.call !== 'heads' && submission.call !== 'tails') {
+      throw new Error("Call must be 'heads' or 'tails'.");
+    }
     validateBet(player.coins, submission.bet);
   }
 
   if (submission.kind === 'prisoners') {
     if (gambling.gamblingGame !== 'prisoners') {
       throw new Error("Current gambling game is not prisoner's dilemma.");
+    }
+    if (submission.choice !== 'cooperate' && submission.choice !== 'defect') {
+      throw new Error("Choice must be 'cooperate' or 'defect'.");
     }
   }
 

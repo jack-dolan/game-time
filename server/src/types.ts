@@ -65,5 +65,6 @@ export interface RoomState {
   lastGamblingResults?: GamblingResultsView;
   finalLeaderboard?: PlayerState[];
   latestGamblingOutcomes?: GamblingPlayerOutcome[];
+  roundHistory: GameRoundResultView[];
   doodle?: DoodleState;
 }

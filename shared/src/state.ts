@@ -113,4 +113,6 @@ export interface RoomView {
   lastGamblingResults?: GamblingResultsView;
   /** Set when phase = game_over. */
   finalLeaderboard?: PublicPlayer[];
+  /** Set when phase = game_over. */
+  roundHistory?: GameRoundResultView[];
 }
