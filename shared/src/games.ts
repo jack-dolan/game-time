@@ -42,7 +42,7 @@ export const GAMES: GameDef[] = [
     url: 'https://guessthe.house/',
     description: 'Guess the price of the house. Fewer guesses = better.',
     scoreKind: { kind: 'guesses-or-fail', maxGuesses: 6, perfectIsLow: true },
-    scoreInputHint: 'Guesses used (or X if you failed)',
+    scoreInputHint: 'Guesses used to find it (1–6, or X if you failed)',
   },
   {
     id: 'wordle',
@@ -50,7 +50,7 @@ export const GAMES: GameDef[] = [
     url: 'https://www.nytimes.com/games/wordle/index.html',
     description: 'Guess the 5-letter word. Fewer guesses = better.',
     scoreKind: { kind: 'guesses-or-fail', maxGuesses: 6, perfectIsLow: true },
-    scoreInputHint: 'Guesses used (or X if you failed)',
+    scoreInputHint: 'Guesses used to solve it (1–6, or X if you failed)',
   },
   {
     id: 'costcodle',
@@ -58,7 +58,7 @@ export const GAMES: GameDef[] = [
     url: 'https://costcodle.com/',
     description: 'Guess the Costco product price. Fewer guesses = better.',
     scoreKind: { kind: 'guesses-or-fail', maxGuesses: 6, perfectIsLow: true },
-    scoreInputHint: 'Guesses used (or X if you failed)',
+    scoreInputHint: 'Guesses used to find it (1–6, or X if you failed)',
   },
   {
     id: 'angle',
@@ -66,7 +66,7 @@ export const GAMES: GameDef[] = [
     url: 'https://angle.wtf/',
     description: 'Guess the angle. Fewer guesses = better.',
     scoreKind: { kind: 'guesses-or-fail', maxGuesses: 4, perfectIsLow: true },
-    scoreInputHint: 'Guesses used (or X if you failed)',
+    scoreInputHint: 'Guesses used to find it (1–4, or X if you failed)',
   },
   {
     id: 'cutle',
