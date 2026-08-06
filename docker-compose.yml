@@ -8,4 +8,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=8080
-      - ALLOWED_ORIGINS=https://letsgogaming.dolanjack.com
+      # CORS allowlist Socket.io checks the browser's origin against. This
+      # compose file is for local use, so it names the local origin. The
+      # deployed instance sets its own value in the platform.
+      - ALLOWED_ORIGINS=http://localhost:8080
