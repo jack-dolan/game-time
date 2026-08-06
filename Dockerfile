@@ -16,6 +16,12 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 
+# Patch OS packages in the base layer. node:20-alpine lags Alpine's own
+# security updates between rebuilds, so without this the image ships known-fixed
+# CVEs in openssl and friends. The cost is that two builds of the same commit
+# can pull slightly different package versions.
+RUN apk --no-cache upgrade
+
 RUN addgroup -S -g 1001 app && adduser -S -u 1001 -G app app
 
 COPY package.json package-lock.json ./
