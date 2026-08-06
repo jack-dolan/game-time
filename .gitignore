@@ -8,3 +8,6 @@ build/
 .vite/
 coverage/
 *.tsbuildinfo
+
+# Per-developer Claude Code settings — local by name and by intent
+.claude/settings.local.json
