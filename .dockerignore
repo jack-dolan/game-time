@@ -11,3 +11,5 @@ dist
 k8s
 .github
 coverage
+*.tsbuildinfo
+**/*.tsbuildinfo
