@@ -87,3 +87,8 @@ previous known-good code through the same path as any other change.
 
 The platform also keeps a deployment history recording the commit behind each
 build, which is the fastest way to identify *which* commit to revert to.
+
+## Hosting
+
+Runs as a Dokploy application on the `dokploy` VM (Proxmox, atlas node),
+fronted by Cloudflare and the tunnel. A push to `main` is the deploy.
