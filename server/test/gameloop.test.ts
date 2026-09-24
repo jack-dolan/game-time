@@ -146,7 +146,7 @@ describe('round history', () => {
     const manager = new RoomManager();
     const { room, player: host } = manager.createRoom('Host');
 
-    // Two games; maxGamingRounds=2 so shouldEndSession fires after round 2 (no gambling)
+    // Two games selected; the session ends after round 2
     room.settings.selectedGameIds = ['wordle', 'connections'];
     room.settings.maxGamingRounds = 2;
 
