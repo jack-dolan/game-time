@@ -57,8 +57,7 @@ export function scoreToCoins(game: GameDef, input: ScoreInput): number {
     const total = input.a + input.b;
     if (total <= 0) return MIN_COINS_PER_ROUND;
     const smaller = Math.min(input.a, input.b);
-    const smallerPct = (smaller / total) * 100; // 50 = perfect, ~0 = worst
-    // Map [0..50] → [10..100]. (0:100 would give 10, 50:50 gives 100.)
+    const smallerPct = (smaller / total) * 100;
     const t = smallerPct / 50;
     return lerpCoins(t);
   }

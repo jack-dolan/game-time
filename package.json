@@ -16,7 +16,6 @@
     "dev:client": "npm run dev -w @letsgogaming/client",
     "start": "npm run start -w @letsgogaming/server",
     "typecheck": "npm run build -w @letsgogaming/shared && npm run typecheck -w @letsgogaming/server && npm run typecheck -w @letsgogaming/client",
-    "lint": "npm run lint -w @letsgogaming/shared -w @letsgogaming/server -w @letsgogaming/client",
     "test": "npm run build -w @letsgogaming/shared && npm run test -w @letsgogaming/server"
   },
   "devDependencies": {
